@@ -43,6 +43,15 @@ func BenchmarkEnsureUTF8Large(b *testing.B) {
 	}
 }
 
+func BenchmarkEnsureUTF8Huge(b *testing.B) {
+	h := strings.Repeat("a", 1<<24) // ~16MB string  (approx. 10 copies of "Phenomenology of the Spirit" formatted w/ md)
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		EnsureUTF8(h)
+	}
+}
+
 func BenchmarkGEnsureUTF8Tiny(b *testing.B) {
 	tiny := strings.Repeat("a", 1<<5) // ~32B string. One UTF-8 char is 1-4 bytes.
 	b.ResetTimer()
@@ -77,6 +86,15 @@ func BenchmarkGEnsureUTF8Large(b *testing.B) {
 
 	for i := 0; i < b.N; i++ {
 		GEnsureUTF8(large)
+	}
+}
+
+func BenchmarkGEnsureUTF8Huge(b *testing.B) {
+	h := strings.Repeat("a", 1<<24) // ~16MB string  (approx. 10 copies of "Phenomenology of the Spirit" formatted w/ md)
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		GEnsureUTF8(h)
 	}
 }
 
